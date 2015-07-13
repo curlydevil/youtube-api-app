@@ -5,8 +5,15 @@
             "ui.router"
         ]);
 
-    app.config(["$stateProvider", "$urlRouterProvider",
-        function ($stateProvider, $urlRouterProvider) {
+    app.config(["$stateProvider", "$urlRouterProvider","$sceDelegateProvider",
+        function ($stateProvider, $urlRouterProvider,$sceDelegateProvider) {
+
+            $sceDelegateProvider.resourceUrlWhitelist([
+                'self',
+                'https://www.youtube.com/**',
+                'https://youtu.be/**'
+            ]);
+
             $urlRouterProvider.otherwise("/home/player");
 
             $stateProvider

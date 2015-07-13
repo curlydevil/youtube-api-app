@@ -16,47 +16,44 @@
         vm.addToPlaylist = function(){
             //some logic
             alert("added");
-        }
+        };
 
         vm.removeFromPlaylist = function(){
             //some logic
             alert("removed");
-        }
+        };
 
         vm.isVideoInCurrentPlaylist = function(){
             return false;
-        }
+        };
 
         vm.videos = [
             {name: "pupies"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}, {name: "kitties"}, {name: "parrots"}
         ];
 
-/*
-        var playerList = playlistResource.query(
-            function()
-            {
-                console.log(playerList.items);
-                var items = playerList.items;
-                for(var item = 0; item < items.length; item++)
-                {
-                    var lists = playlistitemsResource.query({playlistId: items[item].id},function()
-                    {
-                        console.log(lists);
-                    });
-                }
-            }
-        );
-*/
+
+        vm.srcVideo = "//https://www.youtube.com/embed/3ZqPaohVjmw";
 
         vm.changePlayList = function(playlist){
             if(!vm.selectedPlayList || vm.selectedPlayList.id !== playlist.id){
                 vm.selectedPlayList = playlist;
             }
-        }
+        };
 
         playlistResource.query(function(data){
             for(var i = 0; i < data.items.length; i++){
                 vm.playlists.push(data.items[i]);
+
+                    var lists = playlistitemsResource.query({playlistId: data.items[i].id},function(data)
+                    {
+                        console.log(data);
+                        if(data.items.length > 0)
+                        {
+                            var item = data.items[0].snippet;
+                            vm.srcVideo = 'https://www.youtube.com/embed/' + item.resourceId.videoId +  '?list=' + item.playlistId;// + '&autoplay=true';
+                        }
+
+                    });
             }
         });
     }
