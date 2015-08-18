@@ -33,17 +33,18 @@
                     controller: 'HomeController',
                     controllerAs: 'vm',
                     resolve: {
-                        authCheck: function (authorizationService, $state) {
-                            return authorizationService
-                                .checkAuth()
-                                .then(function () {
-                                        authorizationService
-                                            .setAuthToken();
-                                    },
-                                    function () {
-                                        $state.go('welcome');
-                                    });
-                        }
+                        authCheck: ['authorizationService', '$state',
+                                    function (authorizationService, $state) {
+                                return authorizationService
+                                    .checkAuth()
+                                    .then(function () {
+                                            authorizationService
+                                                .setAuthToken();
+                                        },
+                                        function () {
+                                            $state.go('welcome');
+                                        });
+                                    }]
                     }
                 })
                 .state('home.player', {
